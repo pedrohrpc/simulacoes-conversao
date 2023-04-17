@@ -5,12 +5,13 @@ corrente = 2.5
 espiras = 800
 
 profundidade = 3
-lg = 0
+lg = 3.3953
 largura = 2
 altura = 12 + largura + lg
 comprimento = 9 + largura
 
 core = 'M-14'
+coreInf = 'inf'
 fluido = 'Air'
 cobre = '0.5mm'
 
@@ -23,6 +24,9 @@ femm.mi_probdef(0,'centimeters','planar',1e-8,profundidade)
 femm.mi_getmaterial(core)
 femm.mi_getmaterial(fluido)
 femm.mi_getmaterial(cobre)
+
+'''femm.mi_addmaterial(coreInf,float('inf'),float('inf'))
+femm.mi_getmaterial(coreInf)'''
 
 # Desenhando o core
 femm.mi_drawrectangle(1,0,1+comprimento,altura)
@@ -102,16 +106,31 @@ indutancia = fluxoCircuito/corrente
 print("Indutancia (uH) = ", indutancia*1e6)
 
 # Obtendo a densidade de fluxo no core
+print('Medicoes do core')
 vetorB = femm.mo_getb(1+largura/2,altura/2)
 moduloB = (vetorB[0]**2+vetorB[1]**2)**0.5
 print(f'Vetor da densidade de fluxo: {vetorB}')
-print(f'Modulo da densidade de fluxo: B = {moduloB}')
+print(f'Modulo da densidade de fluxo: B = {moduloB} T')
 
 # Obtendo a intensidade de fluxo no core
 vetorH = femm.mo_geth(1+largura/2,altura/2)
 moduloH = (vetorH[0]**2+vetorH[1]**2)**0.5
-print(f'Vetor da intensidade de fluxo: {vetorH}')
-print(f'Modulo da intensidade de fluxo: H = {moduloH}')
+print(f'Vetor da intensidade de campo: {vetorH}')
+print(f'Modulo da intensidade de campo: H = {moduloH} h')
+
+if lg>0:
+# Obtendo a densidade de fluxo no entreferro
+    print('Medicoes do entreferro')
+    vetorB = femm.mo_getb(1+largura/2,altura-largura-lg/2)
+    moduloB = (vetorB[0]**2+vetorB[1]**2)**0.5
+    print(f'Vetor da densidade de fluxo: {vetorB}')
+    print(f'Modulo da densidade de fluxo: B = {moduloB} T')
+
+    # Obtendo a intensidade de fluxo no entreferro
+    vetorH = femm.mo_geth(1+largura/2,altura-largura-lg/2)
+    moduloH = (vetorH[0]**2+vetorH[1]**2)**0.5
+    print(f'Vetor da intensidade de campo: {vetorH}')
+    print(f'Modulo da intensidade de campo: H = {moduloH} h')
 
 
 os.system('pause')

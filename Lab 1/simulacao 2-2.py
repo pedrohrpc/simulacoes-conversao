@@ -76,18 +76,18 @@ femm.mo_showdensityplot(1,0,5e-2,0,"bmag")
 # Obtendo a indutancia da bobina
 correnteCircuito, tensaoCircuito, fluxoCircuito = femm.mo_getcircuitproperties('Alimentacao')
 indutancia = fluxoCircuito/corrente
-print("Indutancia (uH) = ", indutancia*1e6)
+# print("Indutancia (uH) = ", indutancia*1e6)
 
 # Obtendo a densidade de fluxo no core
 vetorB = femm.mo_getb(1+largura/2,altura/2)
 moduloB = (vetorB[0]**2+vetorB[1]**2)**0.5
 print(f'Vetor da densidade de fluxo: {vetorB}')
-print(f'Modulo da densidade de fluxo: B = {moduloB}')
+print(f'Modulo da densidade de fluxo: B = {moduloB} T')
 
 # Obtendo a intensidade de fluxo no core
 vetorH = femm.mo_geth(1+largura/2,altura/2)
 moduloH = (vetorH[0]**2+vetorH[1]**2)**0.5
-print(f'Vetor da intensidade de fluxo: {vetorH}')
-print(f'Modulo da intensidade de fluxo: H = {moduloH}')
+print(f'Vetor da intensidade de campo: {vetorH}')
+print(f'Modulo da intensidade de campo: H = {moduloH} h')
 
 os.system('pause')
